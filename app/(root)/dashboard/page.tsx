@@ -18,10 +18,7 @@ const Page = () => {
   }, [isHydrated, isLoggedIn, router]);
 
   return (
-    <div
-      ref={homeRef}
-      className="relative flex flex-1 min-h-screen w-screen bg-white"
-    >
+    <div ref={homeRef} className="relative flex flex-1 min-h-screen bg-white">
       {!isHydrated && (
         <div className="flex justify-center items-center h-screen bg-white">
           <Loader />

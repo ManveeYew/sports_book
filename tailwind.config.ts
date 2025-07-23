@@ -45,6 +45,7 @@ const config: Config = {
         42: "10.5rem",
         43: "10.75rem",
         44: "11rem",
+        46: "11.25rem",
       },
       width: {
         18: "4.5rem",
@@ -71,6 +72,7 @@ const config: Config = {
         42: "10.5rem",
         43: "10.75rem",
         44: "11rem",
+        46: "11.25rem",
       },
       colors: {
         primary: {
@@ -90,6 +92,16 @@ const config: Config = {
           md: "calc(var(--radius) - 2px)",
           sm: "calc(var(--radius) - 4px)",
         },
+      },
+
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+      },
+      animation: {
+        marquee: "marquee 15s linear infinite",
       },
     },
   },

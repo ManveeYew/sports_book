@@ -1,9 +1,9 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useLanguageStore } from "@/store/useLanguageStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import Loader from "../components/Loader";
+import { useRouter } from "next/navigation";
 
 export default function Layout({
   children,
@@ -19,8 +19,17 @@ export default function Layout({
 
 function AppLayout({ children }: { children: React.ReactNode }) {
   const appRef = useRef<HTMLDivElement>(null);
-  const { language, setLanguage } = useLanguageStore();
-  const { isHydrated } = useAuthStore();
+  const { isHydrated, isLoggedIn } = useAuthStore();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isHydrated && isLoggedIn) {
+      router.push("/dashboard");
+    } else if (isHydrated && !isLoggedIn) {
+      router.push("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isHydrated, isLoggedIn]);
 
   return (
     <main
@@ -35,16 +44,6 @@ function AppLayout({ children }: { children: React.ReactNode }) {
 
       {isHydrated && (
         <>
-          <div className="absolute top-4 right-4 z-30">
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value as "en" | "zh")}
-              className="p-2 border rounded"
-            >
-              <option value="en">🇬🇧 English</option>
-              <option value="zh">🇨🇳 中文</option>
-            </select>
-          </div>
           <div className="flex-1 relative">{children}</div>
         </>
       )}

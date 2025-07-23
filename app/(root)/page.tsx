@@ -13,12 +13,14 @@ import { useMutation } from "@tanstack/react-query";
 import { getErrorMessage } from "@/app/services/getErrorMessage";
 import toast from "react-hot-toast";
 import { useTranslation } from "@/lib/useTranslation";
+import { useLanguageStore } from "@/store/useLanguageStore";
 
 const Page = () => {
   const t = useTranslation();
   const loginRef = useRef<HTMLDivElement>(null);
   const { login, isLoggedIn, isHydrated } = useAuthStore();
   const router = useRouter();
+  const { language, setLanguage } = useLanguageStore();
 
   const schema = z.object({
     email: z.string().min(1, t.email_required).email(t.email_invalid),
@@ -44,7 +46,7 @@ const Page = () => {
       return response;
     },
     onSuccess: () => {
-      router.push("/home");
+      router.push("/dashboard");
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: (error: any) => {
@@ -73,6 +75,16 @@ const Page = () => {
       )}
       {!isLoggedIn && isHydrated && (
         <>
+          <div className="absolute top-4 right-4 z-30">
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as "en" | "zh")}
+              className="p-2 border rounded"
+            >
+              <option value="en">🇬🇧 English</option>
+              <option value="zh">🇨🇳 中文</option>
+            </select>
+          </div>
           <div className="flex flex-col w-screen justify-center items-center overflow-hidden z-20">
             <div className="w-11/12 md:w-9/12 lg:w-5/6 xl:w-9/12 flex flex-col items-center">
               <div className={`flex flex-row pb-4`}>

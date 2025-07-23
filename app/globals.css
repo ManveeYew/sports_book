@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+@layer utilities {
+  .input_custom {
+    @apply w-full bg-[#fff] text-black p-3 rounded-lg focus:outline-primary focus:outline-double disabled:bg-[#ddd] disabled:text-[#888] disabled:cursor-not-allowed;
+  }
+
+  .input_error_custom {
+    @apply text-red-500 text-sm mt-1;
+  }
+
+  .input_custom:-webkit-autofill {
+    box-shadow: 0 0 0 1000px #fff inset !important; /* Tailwind bg-zinc-800 */
+    -webkit-text-fill-color: var(--white_primary) !important;
+  }
+
+  .select_custom {
+    @apply w-full bg-[#313131] text-white p-3 rounded-lg focus:outline-none;
+  }
+
+  .select_custom_2 {
+    @apply w-full bg-[#313131] text-white p-[0.3rem] rounded-lg focus:outline-none;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1); /* Inverts the colors */
+  }
+
+  .custom_scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .custom_scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom_scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--gold_primary);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  /* Firefox */
+  .custom_scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold_primary) transparent;
+  }
+
+  .text-border-fill {
+    color: white;
+    -webkit-text-stroke: 0px transparent;
+  }
+
+  .text-border {
+    color: transparent;
+    -webkit-text-stroke: 1px white;
+  }
+}
+
+body {
+  background: var(--foreground);
+  color: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+label {
+  @apply truncate max-w-full;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

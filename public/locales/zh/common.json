@@ -1,0 +1,8 @@
+{
+  "email": "电子邮件",
+  "password": "密码",
+  "login": "登录",
+  "email_required": "请输入邮箱",
+  "email_invalid": "请输入有效的邮箱地址",
+  "password_required": "请输入密码"
+}

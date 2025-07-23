@@ -33,16 +33,16 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: async () => {
-        try {
-          await api.logout();
-        } catch (error) {
-          // Optionally handle or log error
-          console.error("Logout failed:", error);
-        }
+        // try {
+        //   await api.logout();
+        // } catch (error) {
+        //   // Optionally handle or log error
+        //   console.error("Logout failed:", error);
+        // }
 
         // This runs no matter what (success or failure)
-        const { setUser } = useUserStore.getState();
-        setUser(null);
+        // const { setUser } = useUserStore.getState();
+        // setUser(null);
         set({
           token: undefined,
           isLoggedIn: false,

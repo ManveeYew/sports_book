@@ -4,6 +4,9 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguageStore } from "@/store/useLanguageStore";
+import { useAuthStore } from "@/store/useAuthStore";
+import toast from "react-hot-toast";
+import { useTranslation } from "@/lib/useTranslation";
 
 const user_details = {
   name: "ajsbd123asdasjahs",
@@ -14,6 +17,8 @@ export default function DashboardMenu() {
   const router = useRouter();
   const [time, setTime] = useState<string>("");
   const { language, setLanguage } = useLanguageStore();
+  const { logout } = useAuthStore();
+  const t = useTranslation();
 
   useEffect(() => {
     const updateTime = () => {
@@ -36,17 +41,23 @@ export default function DashboardMenu() {
     return () => clearInterval(interval);
   }, []);
 
+  const onLogout = async () => {
+    await logout();
+    router.push("/");
+    toast.success(`${t.logout_successfully}`);
+  };
+
   return (
     <header className="w-full bg-white text-white text-sm">
       <div className="flex flex-row justify-between">
         <div
           className="
-          relative
-          px-4 py-2
-          w-40 xs:w-40 sm:w-42 md:w-44 lg:w-46 xl:w-48
-          h-16 xs:h-16 sm:h-18 md:h-20 lg:h-22 xl:h-24
-          overflow-hidden
-        "
+            relative
+            px-4 py-2
+            w-40 xs:w-40 sm:w-42 md:w-44 lg:w-46 xl:w-48
+            h-16 xs:h-16 sm:h-18 md:h-20 lg:h-22 xl:h-24
+            overflow-hidden
+          "
         >
           <div className="relative w-full h-full">
             <Image
@@ -67,11 +78,11 @@ export default function DashboardMenu() {
         </div>
         <div className="border-t-2 border-l-2 border-r-2 w-[260px] border-[#2b2b2b] bg-blue-50 self-end text-[#2b2b2b] text-sm px-3 py-2 leading-tight rounded-tl-lg rounded-tr-lg">
           <div className="flex gap-2 justify-center">
-            <span className="font-medium">Welcome,</span>
+            <span className="font-medium">{t.welcome},</span>
             <span className="font-bold">{user_details.name}</span>
           </div>
           <div className="flex justify-center gap-2 mt-1">
-            <span className="font-medium">Credit :</span>
+            <span className="font-medium">{t.credit} :</span>
             <span className="font-bold">{user_details.credit.toFixed(2)}</span>
           </div>
         </div>
@@ -83,14 +94,14 @@ export default function DashboardMenu() {
             href={"/dashboard"}
             className={`bg-[#2b2b2b] px-3 py-2 rounded-tl-lg rounded-tr-lg`}
           >
-            <span className="hover:underline cursor-pointer">Home</span>
+            <span className="hover:underline cursor-pointer">{t.home}</span>
           </Link>
           <Link
-            href={"/dashboard"}
+            href={"/dashboard/betting-rules"}
             className={`bg-[#2b2b2b] px-3 py-2 rounded-tl-lg rounded-tr-lg`}
           >
             <span className="hover:underline cursor-pointer">
-              Betting Rules
+              {t.betting_rules}
             </span>
           </Link>
         </div>
@@ -109,14 +120,14 @@ export default function DashboardMenu() {
             </select>
             <div className="flex flex-row w-[260px] bg-[#2b2b2b] justify-center items-center gap-2">
               <span className="text-white cursor-pointer hover:underline">
-                Preferences
+                {t.preferences}
               </span>
               <span>{"|"}</span>
               <span
                 className="text-white cursor-pointer hover:underline"
-                onClick={() => router.push("/logout")}
+                onClick={() => onLogout()}
               >
-                Logout
+                {t.logout}
               </span>
             </div>
           </div>
@@ -126,25 +137,31 @@ export default function DashboardMenu() {
       <div className="flex flex-row bg-[#2b2b2b] px-2 py-1 gap-4">
         <div className="flex gap-2 font-bold text-white items-center">
           <Link href={"/dashboard"} className={`px-3 py-2`}>
-            <span className="hover:underline cursor-pointer">Bet List</span>
+            <span className="hover:underline cursor-pointer">{t.bet_list}</span>
           </Link>
           <Link href={"/dashboard"} className={` px-3 py-2 `}>
-            <span className="hover:underline cursor-pointer">Statement</span>
+            <span className="hover:underline cursor-pointer">
+              {t.statement}
+            </span>
           </Link>
           <Link href={"/dashboard"} className={` px-3 py-2 `}>
-            <span className="hover:underline cursor-pointer">My Account</span>
+            <span className="hover:underline cursor-pointer">
+              {t.my_account}
+            </span>
           </Link>
           <Link href={"/dashboard"} className={` px-3 py-2 `}>
-            <span className="hover:underline cursor-pointer">Result</span>
+            <span className="hover:underline cursor-pointer">{t.result}</span>
           </Link>
           <Link href={"/dashboard"} className={` px-3 py-2 `}>
-            <span className="hover:underline cursor-pointer">Transfer All</span>
+            <span className="hover:underline cursor-pointer">
+              {t.transfer_all}
+            </span>
           </Link>
         </div>
 
         <div className="flex flex-1 overflow-hidden bg-white border border-[#2b2b2b] items-center">
           <div className="text-red-600 whitespace-nowrap animate-marquee px-4">
-            We wish to remind our customers that...
+            {t.dashboard_announcement}
           </div>
         </div>
       </div>

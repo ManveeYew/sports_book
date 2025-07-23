@@ -4,5 +4,19 @@
   "login": "Log in",
   "email_required": "Email is required",
   "email_invalid": "Please enter a valid email address",
-  "password_required": "Password is required"
+  "password_required": "Password is required",
+  "loading": "Loading",
+  "logout_successfully": "Logout Successfully",
+  "welcome": "Welcome",
+  "credit": "Credit",
+  "home": "Home",
+  "betting_rules": "Betting Rules",
+  "preferences": "Preferences",
+  "logout": "Logout",
+  "bet_list": "Bet List",
+  "statement": "Statement",
+  "my_account": "My Account",
+  "result": "Result",
+  "transfer_all": "Transfer All",
+  "dashboard_announcement": "We wish to remind our customers that"
 }

@@ -1,4 +1,5 @@
 // components/Button.tsx
+import { useTranslation } from "@/lib/useTranslation";
 import { Loader2 } from "lucide-react";
 import { forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
@@ -21,6 +22,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    const t = useTranslation();
+
     return (
       <button
         ref={ref}
@@ -53,7 +56,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             (isLoading ? (
               <span className="flex items-center gap-2">
                 <Loader2 className="animate-spin w-5 h-5" />
-                Loading...
+                {t.loading}...
               </span>
             ) : (
               children

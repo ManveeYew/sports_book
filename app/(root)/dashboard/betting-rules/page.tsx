@@ -1,17 +1,13 @@
 "use client";
 import Loader from "@/app/components/Loader";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 
 const Page = () => {
-  const homeRef = useRef(null);
   const { isLoggedIn, isHydrated } = useAuthStore();
-  const router = useRouter();
 
   return (
-    <div ref={homeRef} className="relative flex flex-1 min-h-screen bg-white">
+    <div className="relative flex flex-1 min-h-screen bg-white">
       {!isHydrated && (
         <div className="flex justify-center items-center h-screen bg-white">
           <Loader />
@@ -20,7 +16,7 @@ const Page = () => {
 
       {isHydrated && isLoggedIn && (
         <div className="flex flex-1 justify-center items-center">
-          <span>Home</span>
+          <span>Betting Rules</span>
         </div>
       )}
     </div>

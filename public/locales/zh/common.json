@@ -4,5 +4,19 @@
   "login": "登录",
   "email_required": "请输入邮箱",
   "email_invalid": "请输入有效的邮箱地址",
-  "password_required": "请输入密码"
+  "password_required": "请输入密码",
+  "loading": "加载中",
+  "logout_successfully": "登出成功",
+  "welcome": "欢迎",
+  "credit": "余额",
+  "home": "主页",
+  "betting_rules": "投注规则",
+  "preferences": "偏好设置",
+  "logout": "登出",
+  "bet_list": "投注清单",
+  "statement": "结单",
+  "my_account": "我的账户",
+  "result": "成绩",
+  "transfer_all": "全部转移",
+  "dashboard_announcement": "我们想提醒我们的客户"
 }

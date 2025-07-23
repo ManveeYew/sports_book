@@ -14,6 +14,7 @@ import { getErrorMessage } from "@/app/services/getErrorMessage";
 import toast from "react-hot-toast";
 import { useTranslation } from "@/lib/useTranslation";
 import { useLanguageStore } from "@/store/useLanguageStore";
+import Image from "next/image";
 
 const Page = () => {
   const t = useTranslation();
@@ -87,15 +88,33 @@ const Page = () => {
           </div>
           <div className="flex flex-col w-screen justify-center items-center overflow-hidden z-20">
             <div className="w-11/12 md:w-9/12 lg:w-5/6 xl:w-9/12 flex flex-col items-center">
-              <div className={`flex flex-row pb-4`}>
-                <h2
-                  className={
-                    "text-black font-semibold text-2xl xs:text-2xl sm:text-3xl md:text-3xl lg:text-3xl xl:text-4xl whitespace-nowrap"
-                  }
-                >
-                  {"Brand name"}
-                </h2>
+              <div
+                className="
+                  relative
+                  px-4 py-2
+                  w-50 xs:w-50 sm:w-52 md:w-54 lg:w-56 xl:w-58
+                  h-26 xs:h-26 sm:h-28 md:h-30 lg:h-32 xl:h-34
+                  overflow-hidden
+                "
+              >
+                <div className="relative w-full h-full">
+                  <Image
+                    src={`/images/logo.png`}
+                    alt={"dashboard-logo"}
+                    fill
+                    loading={"lazy"}
+                    sizes={`
+                      (max-width: 468px) 10rem,
+                      (max-width: 575px) 11rem,
+                      (max-width: 768px) 12rem,
+                      (max-width: 1024px) 13rem,
+                      14rem
+                    `}
+                    className="object-contain"
+                  />
+                </div>
               </div>
+
               <form
                 onSubmit={handleSubmit(onSubmit)}
                 className="flex justify-center w-full"

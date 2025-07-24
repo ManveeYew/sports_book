@@ -4,6 +4,8 @@ import React, { useEffect, useRef } from "react";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import BannerCarousel from "./components/BannerCarousel";
+import MatchList from "./components/MatchList/MatchList";
 
 const Page = () => {
   const homeRef = useRef(null);
@@ -19,8 +21,11 @@ const Page = () => {
       )}
 
       {isHydrated && isLoggedIn && (
-        <div className="flex flex-1 justify-center items-center">
-          <span>Home</span>
+        <div className="flex flex-1 flex-col">
+          <BannerCarousel />
+          <div className="p-2">
+            <MatchList />
+          </div>
         </div>
       )}
     </div>

@@ -121,6 +121,21 @@ const config: Config = {
           sm: "calc(var(--radius) - 4px)",
         },
       },
+      fontFamily: {
+        geistsans: ["var(--font-geist-sans)"],
+        geistmono: ["var(--font-geist-mono)"],
+      },
+      fontWeight: {
+        hairline: "100",
+        thin: "200",
+        light: "300",
+        normal: "400",
+        medium: "500",
+        semibold: "600",
+        bold: "700",
+        extrabold: "800",
+        black: "900",
+      },
 
       keyframes: {
         marquee: {

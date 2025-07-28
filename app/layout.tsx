@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 import LenisProvider from "@/components/LenisProvider";
+import { ThemeProvider } from "next-themes";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -27,9 +28,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         <Toaster
           toastOptions={{
@@ -44,7 +46,11 @@ export default function RootLayout({
           reverseOrder={false}
         />
         <NuqsAdapter>
-          <LenisProvider>{children}</LenisProvider>
+          <LenisProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              {children}
+            </ThemeProvider>
+          </LenisProvider>
         </NuqsAdapter>
       </body>
     </html>

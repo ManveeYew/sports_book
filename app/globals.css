@@ -15,6 +15,22 @@
 }
 
 @layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
   .input_custom {
     @apply w-full bg-[#fff] text-black p-3 rounded-lg focus:outline-primary focus:outline-double disabled:bg-[#ddd] disabled:text-[#888] disabled:cursor-not-allowed;
   }

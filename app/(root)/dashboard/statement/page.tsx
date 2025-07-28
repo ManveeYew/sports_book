@@ -16,7 +16,7 @@ const Page = () => {
 
       {isHydrated && isLoggedIn && (
         <div className="flex flex-1 justify-center items-center">
-          <span>Betting Rules</span>
+          <span>Statement</span>
         </div>
       )}
     </div>

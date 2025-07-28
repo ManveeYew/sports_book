@@ -24,14 +24,14 @@ export default function DashboardLayout({
   }, [isHydrated, isLoggedIn, router]);
 
   return (
-    <div className="flex w-screen justify-center bg-gray-100">
+    <div className="flex h-screen w-screen justify-center bg-gray-100">
       <div
         className={`
           flex flex-col w-screen max-w-screen-lg bg-gray-100 text-black
           ${uiType === "mobile" ? "h-screen max-h-screen overflow-hidden" : ""}
         `}
       >
-        <DashboardMenu />
+        {uiType === "desktop" && <DashboardMenu />}
 
         {/* Scrollable content area */}
         <main
@@ -39,7 +39,7 @@ export default function DashboardLayout({
           className={`
             flex-1 overflow-auto
             flex flex-row items-start
-            ${uiType === "mobile" ? "pb-16" : ""}
+            ${uiType === "mobile" ? "" : ""}
           `}
         >
           {uiType === "desktop" && (
@@ -48,14 +48,16 @@ export default function DashboardLayout({
             </div>
           )}
 
-          <div className={`${uiType === "desktop" ? "w-3/4" : "w-full"}`}>
+          <div
+            className={`${uiType === "desktop" ? "w-3/4" : "w-full"} h-full`}
+          >
             {children}
           </div>
         </main>
 
         {/* Fixed footer for mobile */}
         {uiType === "mobile" && (
-          <div className="fixed bottom-0 left-0 w-full max-w-screen-lg z-10">
+          <div className="w-full max-w-screen-lg z-10">
             <DashboardFooter />
           </div>
         )}

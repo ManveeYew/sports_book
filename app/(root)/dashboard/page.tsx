@@ -8,6 +8,7 @@ import { useAppStore } from "@/store/useAppStore";
 import MobileDrawer from "./components/MobileDrawer";
 import { Search, X, Check } from "lucide-react";
 import MobileMatchList from "./components/MatchList/MobileMatchList";
+import MobileBetPopup from "./components/MobileBetPopup";
 
 type SubCategory = {
   id: number;
@@ -125,6 +126,7 @@ const Page = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isParlay, setIsParlay] = useState(false);
   const [selectedSportId, setSelectedSportId] = useState<number>(1);
+  const [isBetPopupOpen, setIsBetPopupOpen] = useState(false);
 
   // Debounce logic
   useEffect(() => {
@@ -168,7 +170,7 @@ const Page = () => {
         {isHydrated && isLoggedIn && (
           <div
             id="sports-main"
-            className="flex flex-1 overflow-hidden scrollbar-hide flex-col"
+            className="flex flex-1 overflow-x-hidden  flex-col"
           >
             <div className="p-2 px-4 flex flex-row items-center justify-between bg-[rgb(43,43,51)]">
               <div className="flex flex-row w-1/2 py-2">
@@ -261,11 +263,21 @@ const Page = () => {
             <hr className="border-gray-400" />
             <MobileMatchList
               sport={sports.find((s) => s.id === selectedSportId)}
+              placeMatchBetCallback={() => {
+                setIsBetPopupOpen(true);
+              }}
             />
 
             <MobileDrawer
               isOpen={isDrawerOpen}
               onClose={() => setIsDrawerOpen(false)}
+            />
+
+            <MobileBetPopup
+              isOpen={isBetPopupOpen}
+              betType={"match"}
+              title={"⚽ China Football Super League"}
+              onClose={() => setIsBetPopupOpen(false)}
             />
           </div>
         )}

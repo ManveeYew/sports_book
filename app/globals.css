@@ -86,6 +86,22 @@
     color: transparent;
     -webkit-text-stroke: 1px white;
   }
+
+  .mobile-match-group-odd-title {
+    @apply text-sm text-primary font-semibold text-center;
+  }
+
+  .mobile-match-group-odd-container {
+    @apply flex flex-col items-center justify-center border border-gray-300 p-2 rounded-lg mb-2 cursor-pointer;
+  }
+
+  .mobile-match-group-odd-container-title1 {
+    @apply text-sm text-gray-400 font-bold;
+  }
+
+  .mobile-match-group-odd-container-title2 {
+    @apply text-base text-black font-bold;
+  }
 }
 
 body {

@@ -21,18 +21,21 @@ type Sport = {
 
 interface MatchProps {
   sport: Sport | undefined;
+  placeMatchBetCallback: () => void;
 }
 
-const MobileMatchList: React.FC<MatchProps> = ({ sport }) => {
+const MobileMatchList: React.FC<MatchProps> = ({
+  sport,
+  placeMatchBetCallback,
+}) => {
   const [selectedSportCategoryId, setSelectedSportCategoryId] =
     useState<number>(1);
 
-  console.log(sport);
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-md text-sm text-black">
+    <div className="bg-gray-200 flex-1 dark:bg-gray-800 rounded-md text-sm text-black">
       {(sport?.subCategories?.length ?? 0) > 0 && (
         <>
-          <div className="flex flex-row px-4 p-2 overflow-x-auto no-scrollbar gap-2 shadow-md">
+          <div className="flex flex-row px-4 bg-white p-2 overflow-x-auto no-scrollbar gap-2 shadow-md">
             {sport?.subCategories?.map((subCategory) => (
               <button
                 key={subCategory.name}
@@ -58,561 +61,272 @@ const MobileMatchList: React.FC<MatchProps> = ({ sport }) => {
               </button>
             ))}
           </div>
-          <div className="p-2">
+          <div className="p-2 py-4">
             <MobileMatchGroup
               title="Running"
               events={[
                 {
-                  name: "China Football Super League",
+                  id: 1,
+                  type: "match",
+                  name: "⚽ China Football Super League",
                   matches: [
                     {
-                      rows: [
+                      id: 1,
+                      time: {
+                        result: "2 - 0",
+                        status: "H.TIME",
+                      },
+                      team: [
                         {
-                          time: {
-                            result: "2 - 0",
-                            status: "H.TIME",
-                          },
-                          event: {
-                            team: [
-                              {
-                                name: "Tanzania (w)",
-                                highlight: true,
-                              },
-                              {
-                                name: "Burundi (w)",
-                                highlight: false,
-                              },
-                            ],
-                            status: "Draw",
-                          },
-                          fulltime: {
-                            hdp: [
-                              {
+                          name: "Tanzania (w)",
+                          highlight: true,
+                          fulltime: [
+                            {
+                              hdp: {
                                 left: "0",
                                 right: "1.09",
                               },
-                              {
+                              ou: {
                                 left: "0",
                                 right: "1.09",
                               },
-                            ],
-                            ou: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            oxt: [
-                              {
+                              oxt: {
                                 odd: "1.09",
                               },
-                              {
-                                odd: "1.09",
-                              },
-                            ],
-                            oe: [
-                              {
+                              oe: {
                                 type: "O",
                                 odd: "1.09",
                               },
-                              {
-                                type: "E",
+                            },
+                            {
+                              hdp: {
+                                left: "0",
+                                right: "1.09",
+                              },
+                              ou: {
+                                left: "0",
+                                right: "1.09",
+                              },
+                              oxt: {
                                 odd: "1.09",
                               },
-                            ],
-                          },
-                          firsthalf: {
-                            hdp: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            ou: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            oxt: [
-                              {
-                                odd: "1.09",
-                              },
-                              {
-                                odd: "1.09",
-                              },
-                            ],
-                            oe: [
-                              {
+                              oe: {
                                 type: "O",
                                 odd: "1.09",
                               },
-                              {
-                                type: "E",
+                            },
+                          ],
+                          firsthalf: [
+                            {
+                              hdp: {
+                                left: "0",
+                                right: "1.09",
+                              },
+                              ou: {
+                                left: "0",
+                                right: "1.09",
+                              },
+                              oxt: {
                                 odd: "1.09",
                               },
-                            ],
-                          },
+                              oe: {
+                                type: "O",
+                                odd: "1.09",
+                              },
+                            },
+                            {
+                              hdp: {
+                                left: "0",
+                                right: "1.09",
+                              },
+                              ou: {
+                                left: "0",
+                                right: "1.09",
+                              },
+                              oxt: {
+                                odd: "1.09",
+                              },
+                              oe: {
+                                type: "O",
+                                odd: "1.09",
+                              },
+                            },
+                          ],
                         },
                         {
-                          time: {},
-                          event: {},
-                          fulltime: {
-                            hdp: [
-                              {
+                          name: "Burundi (w)",
+                          highlight: false,
+                          fulltime: [
+                            {
+                              hdp: {
                                 left: "0",
                                 right: "1.09",
                               },
-                              {
+                              ou: {
                                 left: "0",
                                 right: "1.09",
                               },
-                            ],
-                            ou: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            oxt: [
-                              {
+                              oxt: {
                                 odd: "1.09",
                               },
-                              {
-                                odd: "1.09",
-                              },
-                            ],
-                            oe: [
-                              {
+                              oe: {
                                 type: "O",
                                 odd: "1.09",
                               },
-                              {
-                                type: "E",
+                            },
+                            {
+                              hdp: {
+                                left: "0",
+                                right: "1.09",
+                              },
+                              ou: {
+                                left: "0",
+                                right: "1.09",
+                              },
+                              oxt: {
                                 odd: "1.09",
                               },
-                            ],
-                          },
-                          firsthalf: {
-                            hdp: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            ou: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            oxt: [
-                              {
-                                odd: "1.09",
-                              },
-                              {
-                                odd: "1.09",
-                              },
-                            ],
-                            oe: [
-                              {
+                              oe: {
                                 type: "O",
                                 odd: "1.09",
                               },
-                              {
-                                type: "E",
+                            },
+                          ],
+                          firsthalf: [
+                            {
+                              hdp: {
+                                left: "0",
+                                right: "1.09",
+                              },
+                              ou: {
+                                left: "0",
+                                right: "1.09",
+                              },
+                              oxt: {
                                 odd: "1.09",
                               },
-                            ],
-                          },
-                        },
-                        {
-                          time: {},
-                          event: {},
-                          fulltime: {
-                            hdp: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            ou: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            oxt: [
-                              {
-                                odd: "1.09",
-                              },
-                              {
-                                odd: "1.09",
-                              },
-                            ],
-                            oe: [
-                              {
+                              oe: {
                                 type: "O",
                                 odd: "1.09",
                               },
-                              {
-                                type: "E",
+                            },
+                            {
+                              hdp: {
+                                left: "0",
+                                right: "1.09",
+                              },
+                              ou: {
+                                left: "0",
+                                right: "1.09",
+                              },
+                              oxt: {
                                 odd: "1.09",
                               },
-                            ],
-                          },
-                          firsthalf: {
-                            hdp: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            ou: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            oxt: [
-                              {
-                                odd: "1.09",
-                              },
-                              {
-                                odd: "1.09",
-                              },
-                            ],
-                            oe: [
-                              {
+                              oe: {
                                 type: "O",
                                 odd: "1.09",
                               },
-                              {
-                                type: "E",
-                                odd: "1.09",
-                              },
-                            ],
-                          },
+                            },
+                          ],
                         },
                       ],
+                      status: "Draw",
                     },
                     {
-                      rows: [
+                      id: 1,
+                      time: {
+                        result: "2 - 0",
+                        status: "H.TIME",
+                      },
+                      team: [
                         {
-                          time: {
-                            result: "2 - 0",
-                            status: "H.TIME",
-                          },
-                          event: {
-                            team: [
-                              {
-                                name: "Tanzania (w)",
-                                highlight: true,
-                              },
-                              {
-                                name: "Burundi (w)",
-                                highlight: false,
-                              },
-                            ],
-                            status: "Draw",
-                          },
+                          name: "Tanzania (w)",
+                          highlight: true,
                           fulltime: {
-                            hdp: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            ou: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            oxt: [
-                              {
-                                odd: "1.09",
-                              },
-                              {
-                                odd: "1.09",
-                              },
-                            ],
-                            oe: [
-                              {
-                                type: "O",
-                                odd: "1.09",
-                              },
-                              {
-                                type: "E",
-                                odd: "1.09",
-                              },
-                            ],
+                            hdp: {
+                              left: "0",
+                              right: "1.09",
+                            },
+                            ou: {
+                              left: "0",
+                              right: "1.09",
+                            },
+                            oxt: {
+                              odd: "1.09",
+                            },
+                            oe: {
+                              type: "O",
+                              odd: "1.09",
+                            },
                           },
                           firsthalf: {
-                            hdp: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            ou: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            oxt: [
-                              {
-                                odd: "1.09",
-                              },
-                              {
-                                odd: "1.09",
-                              },
-                            ],
-                            oe: [
-                              {
-                                type: "O",
-                                odd: "1.09",
-                              },
-                              {
-                                type: "E",
-                                odd: "1.09",
-                              },
-                            ],
+                            hdp: {
+                              left: "0",
+                              right: "1.09",
+                            },
+                            ou: {
+                              left: "0",
+                              right: "1.09",
+                            },
+                            oxt: {
+                              odd: "1.09",
+                            },
+                            oe: {
+                              type: "O",
+                              odd: "1.09",
+                            },
                           },
                         },
                         {
-                          time: {},
-                          event: {},
+                          name: "Burundi (w)",
+                          highlight: false,
                           fulltime: {
-                            hdp: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            ou: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            oxt: [
-                              {
-                                odd: "1.09",
-                              },
-                              {
-                                odd: "1.09",
-                              },
-                            ],
-                            oe: [
-                              {
-                                type: "O",
-                                odd: "1.09",
-                              },
-                              {
-                                type: "E",
-                                odd: "1.09",
-                              },
-                            ],
+                            hdp: {
+                              left: "0",
+                              right: "1.09",
+                            },
+                            ou: {
+                              left: "0",
+                              right: "1.09",
+                            },
+                            oxt: {
+                              odd: "1.09",
+                            },
+                            oe: {
+                              type: "O",
+                              odd: "1.09",
+                            },
                           },
                           firsthalf: {
-                            hdp: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            ou: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            oxt: [
-                              {
-                                odd: "1.09",
-                              },
-                              {
-                                odd: "1.09",
-                              },
-                            ],
-                            oe: [
-                              {
-                                type: "O",
-                                odd: "1.09",
-                              },
-                              {
-                                type: "E",
-                                odd: "1.09",
-                              },
-                            ],
-                          },
-                        },
-                        {
-                          time: {},
-                          event: {},
-                          fulltime: {
-                            hdp: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            ou: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            oxt: [
-                              {
-                                odd: "1.09",
-                              },
-                              {
-                                odd: "1.09",
-                              },
-                            ],
-                            oe: [
-                              {
-                                type: "O",
-                                odd: "1.09",
-                              },
-                              {
-                                type: "E",
-                                odd: "1.09",
-                              },
-                            ],
-                          },
-                          firsthalf: {
-                            hdp: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            ou: [
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                              {
-                                left: "0",
-                                right: "1.09",
-                              },
-                            ],
-                            oxt: [
-                              {
-                                odd: "1.09",
-                              },
-                              {
-                                odd: "1.09",
-                              },
-                            ],
-                            oe: [
-                              {
-                                type: "O",
-                                odd: "1.09",
-                              },
-                              {
-                                type: "E",
-                                odd: "1.09",
-                              },
-                            ],
+                            hdp: {
+                              left: "0",
+                              right: "1.09",
+                            },
+                            ou: {
+                              left: "0",
+                              right: "1.09",
+                            },
+                            oxt: {
+                              odd: "1.09",
+                            },
+                            oe: {
+                              type: "O",
+                              odd: "1.09",
+                            },
                           },
                         },
                       ],
+                      status: "Draw",
                     },
                   ],
                 },
                 {
-                  name: "China Football Super League2",
+                  id: 2,
+                  type: "match",
+                  name: "⚽ China Football Super League2",
                   matches: [
                     {
+                      id: 1,
                       rows: [
                         {
                           time: {
@@ -884,6 +598,7 @@ const MobileMatchList: React.FC<MatchProps> = ({ sport }) => {
                       ],
                     },
                     {
+                      id: 2,
                       rows: [
                         {
                           time: {
@@ -1157,6 +872,100 @@ const MobileMatchList: React.FC<MatchProps> = ({ sport }) => {
                   ],
                 },
               ]}
+              placeMatchBetCallback={placeMatchBetCallback}
+            />
+
+            <MobileMatchGroup
+              title="All Leagues"
+              events={[
+                {
+                  id: 1,
+                  type: "outright",
+                  name: "⚽ English Premier League 2025/2026 Winner",
+                  teams: [
+                    {
+                      id: 1,
+                      name: "Liverpool",
+                      odd: 2.07,
+                    },
+                    {
+                      id: 2,
+                      name: "Arsenal",
+                      odd: 3.5,
+                    },
+                    {
+                      id: 3,
+                      name: "Manchester City",
+                      odd: 4.0,
+                    },
+                    {
+                      id: 4,
+                      name: "Manchester United",
+                      odd: 5.0,
+                    },
+                    {
+                      id: 5,
+                      name: "Chelsea",
+                      odd: 6.0,
+                    },
+                    {
+                      id: 6,
+                      name: "Tottenham Hotspur",
+                      odd: 7.0,
+                    },
+                    {
+                      id: 7,
+                      name: "Aston Villa",
+                      odd: 8.0,
+                    },
+                    {
+                      id: 8,
+                      name: "Newcastle United",
+                      odd: 9.0,
+                    },
+                  ],
+                  matches: [],
+                },
+                {
+                  id: 2,
+                  type: "outright",
+                  name: "⚽ English Championship 2025/2026 Winner",
+                  teams: [
+                    {
+                      id: 1,
+                      name: "Ipswich Town",
+                      odd: 2.0,
+                    },
+                    {
+                      id: 2,
+                      name: "Leicester City",
+                      odd: 3.0,
+                    },
+                    {
+                      id: 3,
+                      name: "Southampton",
+                      odd: 4.0,
+                    },
+                    {
+                      id: 4,
+                      name: "Sunderland",
+                      odd: 5.0,
+                    },
+                    {
+                      id: 5,
+                      name: "West Bromwich Albion",
+                      odd: 6.0,
+                    },
+                    {
+                      id: 6,
+                      name: "Middlesbrough",
+                      odd: 7.0,
+                    },
+                  ],
+                  matches: [],
+                },
+              ]}
+              placeMatchBetCallback={placeMatchBetCallback}
             />
           </div>
         </>

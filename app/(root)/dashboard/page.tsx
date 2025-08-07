@@ -127,7 +127,7 @@ const Page = () => {
   const [isParlay, setIsParlay] = useState(false);
   const [selectedSportId, setSelectedSportId] = useState<number>(1);
   const [isBetPopupOpen, setIsBetPopupOpen] = useState(false);
-
+  console.log(searchTerm);
   // Debounce logic
   useEffect(() => {
     const timeout = setTimeout(() => {

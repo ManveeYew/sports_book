@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -7,7 +7,6 @@ import { User2, LockKeyhole } from "lucide-react";
 import Button from "@/app/components/Button";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import Loader from "@/app/components/Loader";
 import { useMutation } from "@tanstack/react-query";
 import { getErrorMessage } from "@/app/services/getErrorMessage";

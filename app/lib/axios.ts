@@ -9,15 +9,15 @@ const memberAxios = axios.create({
 });
 
 memberAxios.interceptors.request.use((config) => {
-  const { token, language } = useAuthStore.getState();
+  const { token } = useAuthStore.getState();
 
   if (token && !config.headers.Authorization) {
     config.headers.Authorization = `Bearer ${token}`;
   }
 
-  if (language) {
-    config.headers["Accept-Language"] = language;
-  }
+  // if (language) {
+  //   config.headers["Accept-Language"] = language;
+  // }
 
   return config;
 });

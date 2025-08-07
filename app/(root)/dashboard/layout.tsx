@@ -4,7 +4,6 @@ import DashboardMenu from "./components/DashboardMenu";
 import DashboardFooter from "./components/DashboardFooter";
 import { useAuthStore } from "@/store/useAuthStore";
 import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
 import DashboardSideBar from "./components/DashboardSideBar";
 import { useAppStore } from "@/store/useAppStore";
 

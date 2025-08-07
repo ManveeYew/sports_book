@@ -66,16 +66,6 @@ export default function MobileMatchList({
   events,
   placeMatchBetCallback,
 }: Props) {
-  const getMatchStatus = (status: string) => {
-    if (status == "H.TIME") {
-      return <p className="text-xs text-[rgb(39,31,250)]">H.TIME</p>;
-    } else if (status == "LIVE") {
-      return <p className="text-xs text-[rgb(225,25,17)]">LIVE</p>;
-    }
-
-    return null;
-  };
-
   const [isMainOpen, setIsMainOpen] = useState(false);
   const [openEventIds, setOpenEventIds] = useState<string[]>([]);
   const [openMatchIds, setOpenMatchIds] = useState<string[]>([]);

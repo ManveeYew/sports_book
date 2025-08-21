@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { RotateCcw, ChartNoAxesColumn, Plus } from "lucide-react";
+import { RotateCcw, ChartNoAxesColumn, Plus, Star, Tv } from "lucide-react";
 
 export type MatchTable = {
   id: number;
@@ -59,12 +59,16 @@ type Props = {
   title: string;
   events: MatchTable[] | null;
   placeMatchBetCallback: () => void;
+  placeOutrightBetCallback: () => void;
+  moreBetCallback: (match: MatchGroup, event_title: string) => void;
 };
 
 export default function MobileMatchList({
   title,
   events,
   placeMatchBetCallback,
+  placeOutrightBetCallback,
+  moreBetCallback,
 }: Props) {
   const [isMainOpen, setIsMainOpen] = useState(false);
   const [openEventIds, setOpenEventIds] = useState<string[]>([]);
@@ -94,11 +98,13 @@ export default function MobileMatchList({
 
   const stateOnPress = () => {};
 
-  const plusOnPress = () => {};
+  const plusOnPress = (matchGroup: MatchGroup, event_title: string) => {
+    moreBetCallback(matchGroup, event_title);
+  };
 
   const placeOutrightBet = (eventId: string, teamId: string) => {
     // Logic to place an outright bet
-    console.log(`Placing outright bet on event ${eventId} for team ${teamId}`);
+    placeOutrightBetCallback();
   };
 
   const placeMatchBet = () => {
@@ -123,15 +129,25 @@ export default function MobileMatchList({
                 </span>
               </div>
             </div>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                refreshEvent(event.id.toString());
-              }}
-              className=""
-            >
-              <RotateCcw className="w-4 h-4 text-black" />
-            </button>
+            <div className="flex flex-row items-center gap-1">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                className="p-2"
+              >
+                <Star className={`w-4 h-4 text-black`} />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  refreshEvent(event.id.toString());
+                }}
+                className=""
+              >
+                <RotateCcw className="w-4 h-4 text-black" />
+              </button>
+            </div>
           </div>
 
           {openEventIds.includes(event.id.toString()) && (
@@ -145,7 +161,7 @@ export default function MobileMatchList({
                     <button
                       onClick={() => toggleMatch(matchId)}
                       className={`w-full flex items-center justify-between p-3 bg-white ${
-                        openMatchIds.includes(matchId) ? "bg-slate-100" : ""
+                        openMatchIds.includes(matchId) ? "!bg-gray-100" : ""
                       }`}
                     >
                       <div className="flex items-center gap-4">
@@ -191,357 +207,369 @@ export default function MobileMatchList({
 
                     {/* Match Details */}
                     {openMatchIds.includes(matchId) && (
-                      <div className="flex relative w-full bg-white max-w-md  overflow-hidden">
-                        {/* Left - Team names */}
-                        <div className="flex flex-col relative justify-start px-2 py-12 bg-white w-[30%] text-sm font-medium text-black h-auto">
-                          {match.team?.map((team, teamIndex) => (
-                            <div
-                              key={teamIndex}
-                              className={`flex flex-1 items-start`}
+                      <>
+                        <div className="flex relative w-full bg-white max-w-md  overflow-hidden">
+                          {/* Left - Team names */}
+                          <div className="flex flex-col relative justify-start px-2 py-12 bg-white w-[30%] text-sm font-medium text-black h-auto">
+                            {match.team?.map((team, teamIndex) => (
+                              <div
+                                key={teamIndex}
+                                className={`flex flex-1 items-start`}
+                              >
+                                {team.name}
+                              </div>
+                            ))}
+                          </div>
+
+                          {/* Middle - Scrollable odds */}
+                          <div className="flex-1 overflow-x-auto bg-gray-50 px-3 py-4">
+                            <table className="table-auto border-collapse ">
+                              <thead className="">
+                                <tr className="text-center">
+                                  <th className="px-1">
+                                    <span className="mobile-match-group-odd-title">
+                                      {"FT.HDP"}
+                                    </span>
+                                  </th>
+                                  <th className="px-1">
+                                    <span className="mobile-match-group-odd-title">
+                                      {"FT.O/U"}
+                                    </span>
+                                  </th>
+                                  <th className="px-1">
+                                    <span className="mobile-match-group-odd-title">
+                                      {"FT.1X2"}
+                                    </span>
+                                  </th>
+                                  <th className="px-1">
+                                    <span className="mobile-match-group-odd-title">
+                                      {"FT.O/E"}
+                                    </span>
+                                  </th>
+                                  <th className="px-1">
+                                    <span className="mobile-match-group-odd-title">
+                                      {"HT.HDP"}
+                                    </span>
+                                  </th>
+                                  <th className="px-1">
+                                    <span className="mobile-match-group-odd-title">
+                                      {"HT.O/U"}
+                                    </span>
+                                  </th>
+                                  <th className="px-1">
+                                    <span className="mobile-match-group-odd-title">
+                                      {"HT.1X2"}
+                                    </span>
+                                  </th>
+                                  <th className="px-1">
+                                    <span className="mobile-match-group-odd-title">
+                                      {"HT.O/E"}
+                                    </span>
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {match.team?.map((team, teamIndex) => (
+                                  <React.Fragment key={teamIndex}>
+                                    <tr>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                      <td className="px-1 text-center">
+                                        <div
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            placeMatchBet();
+                                          }}
+                                          className="mobile-match-group-odd-container"
+                                        >
+                                          <span className="mobile-match-group-odd-container-title1">
+                                            {"1.09"}
+                                          </span>
+                                          <span className="mobile-match-group-odd-container-title2">
+                                            {"2.00"}
+                                          </span>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  </React.Fragment>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+
+                          {/* Right - Icons */}
+                          <div className="flex flex-col justify-start gap-2 items-center py-3 px-2 bg-white">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                stateOnPress();
+                              }}
+                              className="bg-primary p-1 rounded-lg"
                             >
-                              {team.name}
-                            </div>
-                          ))}
+                              <ChartNoAxesColumn className="w-6 h-6 text-white" />
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                plusOnPress(match, event.name);
+                              }}
+                              className="bg-primary p-1 rounded-lg"
+                            >
+                              <Plus className="w-6 h-6 text-white" />
+                            </button>
+                          </div>
                         </div>
-
-                        {/* Middle - Scrollable odds */}
-                        <div className="flex-1 overflow-x-auto bg-gray-50 px-3 py-4">
-                          <table className="table-auto border-collapse ">
-                            <thead className="">
-                              <tr className="text-center">
-                                <th className="px-1">
-                                  <span className="mobile-match-group-odd-title">
-                                    {"FT.HDP"}
-                                  </span>
-                                </th>
-                                <th className="px-1">
-                                  <span className="mobile-match-group-odd-title">
-                                    {"FT.O/U"}
-                                  </span>
-                                </th>
-                                <th className="px-1">
-                                  <span className="mobile-match-group-odd-title">
-                                    {"FT.1X2"}
-                                  </span>
-                                </th>
-                                <th className="px-1">
-                                  <span className="mobile-match-group-odd-title">
-                                    {"FT.O/E"}
-                                  </span>
-                                </th>
-                                <th className="px-1">
-                                  <span className="mobile-match-group-odd-title">
-                                    {"HT.HDP"}
-                                  </span>
-                                </th>
-                                <th className="px-1">
-                                  <span className="mobile-match-group-odd-title">
-                                    {"HT.O/U"}
-                                  </span>
-                                </th>
-                                <th className="px-1">
-                                  <span className="mobile-match-group-odd-title">
-                                    {"HT.1X2"}
-                                  </span>
-                                </th>
-                                <th className="px-1">
-                                  <span className="mobile-match-group-odd-title">
-                                    {"HT.O/E"}
-                                  </span>
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {match.team?.map((team, teamIndex) => (
-                                <React.Fragment key={teamIndex}>
-                                  <tr>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                    <td className="px-1 text-center">
-                                      <div
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          placeMatchBet();
-                                        }}
-                                        className="mobile-match-group-odd-container"
-                                      >
-                                        <span className="mobile-match-group-odd-container-title1">
-                                          {"1.09"}
-                                        </span>
-                                        <span className="mobile-match-group-odd-container-title2">
-                                          {"2.00"}
-                                        </span>
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </React.Fragment>
-                              ))}
-                            </tbody>
-                          </table>
-                        </div>
-
-                        {/* Right - Icons */}
-                        <div className="flex flex-col justify-start gap-2 items-center py-3 px-2 bg-white">
+                        <div className="flex flex-row px-2">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
-                              stateOnPress();
                             }}
-                            className="bg-primary p-1 rounded-lg"
+                            className="p-2"
                           >
-                            <ChartNoAxesColumn className="w-6 h-6 text-white" />
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              plusOnPress();
-                            }}
-                            className="bg-primary p-1 rounded-lg"
-                          >
-                            <Plus className="w-6 h-6 text-white" />
+                            <Tv className={`w-5 h-5 text-primary_red`} />
                           </button>
                         </div>
-                      </div>
+                      </>
                     )}
                   </div>
                 );
@@ -567,15 +595,25 @@ export default function MobileMatchList({
                 </span>
               </div>
             </div>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                refreshEvent(event.id.toString());
-              }}
-              className=""
-            >
-              <RotateCcw className="w-4 h-4 text-black" />
-            </button>
+            <div className="flex flex-row items-center gap-1">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                className="p-2"
+              >
+                <Star className={`w-4 h-4 text-black`} />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  refreshEvent(event.id.toString());
+                }}
+                className=""
+              >
+                <RotateCcw className="w-4 h-4 text-black" />
+              </button>
+            </div>
           </div>
 
           {openEventIds.includes(event.id.toString()) && (
@@ -617,7 +655,6 @@ export default function MobileMatchList({
     return null;
   };
 
-  console.log(events);
   return (
     <div className="mb-4 bg-gray-200 dark:bg-gray-800">
       {/* Main Accordion Header */}

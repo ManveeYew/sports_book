@@ -108,11 +108,24 @@ const config: Config = {
           DEFAULT: "#2a52be",
           foreground: "hsl(var(--primary-foreground))",
         },
+        secondary: {
+          DEFAULT: "rgb(11,180,254)",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        secondary_dark: {
+          DEFAULT: "rgb(11,154,220)",
+        },
+        primary_red: {
+          DEFAULT: "rgb(225,25,17)",
+        },
         active: {
           DEFAULT: "#3CFF00",
         },
         inactive: {
           DEFAULT: "#FF3C00",
+        },
+        success: {
+          DEFAULT: "rgb(79,184,115)",
         },
         background: "var(--background)",
         foreground: "var(--foreground)",

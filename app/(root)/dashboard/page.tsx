@@ -9,6 +9,61 @@ import MobileDrawer from "./components/MobileDrawer";
 import { Search, X, Check } from "lucide-react";
 import MobileMatchList from "./components/MatchList/MobileMatchList";
 import MobileBetPopup from "./components/MobileBetPopup";
+import MobileBetSuccessPopup from "./components/MobileBetSuccessPopup";
+import { useRouter } from "next/navigation";
+import MobileMoreBetPopup from "./components/MobileMoreBetPopup";
+
+export type MatchTable = {
+  id: number;
+  name: string;
+  type: string;
+  matches?: MatchGroup[];
+  teams?: MatchTeam[];
+};
+
+export type MatchTeam = {
+  id: number;
+  name: string;
+  odd: number;
+};
+
+export type MatchGroup = {
+  id: number;
+  time: {
+    result?: string;
+    status?: string;
+  };
+  status?: string;
+  team?: Team[];
+};
+
+export type Team = {
+  name: string;
+  highlight: boolean;
+  fulltime: PeriodStats[];
+  firsthalf: PeriodStats[];
+};
+
+export type PeriodStats = {
+  hdp: StatEntry;
+  ou: StatEntry;
+  oxt: OddEntry;
+  oe: OeEntry;
+};
+
+export type StatEntry = {
+  left: string;
+  right: string;
+};
+
+export type OddEntry = {
+  odd: string;
+};
+
+export type OeEntry = {
+  type: "O" | "E";
+  odd: string;
+};
 
 type SubCategory = {
   id: number;
@@ -120,6 +175,7 @@ const Page = () => {
   const homeRef = useRef(null);
   const { isLoggedIn, isHydrated } = useAuthStore();
   const { uiType } = useAppStore();
+  const router = useRouter();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchInput, setSearchInput] = useState("");
@@ -127,6 +183,16 @@ const Page = () => {
   const [isParlay, setIsParlay] = useState(false);
   const [selectedSportId, setSelectedSportId] = useState<number>(1);
   const [isBetPopupOpen, setIsBetPopupOpen] = useState(false);
+  const [isBetSuccessPopupOpen, setIsBetSuccessPopupOpen] = useState(false);
+  const [betType, setBetType] = useState("match");
+  const [isMoreBetPopupOpen, setIsMoreBetPopupOpen] = useState(false);
+  const [morebetMatchGroup, setMorebetMatchGroup] = useState<MatchGroup | null>(
+    null
+  );
+  const [morebetEventTitle, setMorebetEventTitle] = useState<string | null>(
+    null
+  );
+
   console.log(searchTerm);
   // Debounce logic
   useEffect(() => {
@@ -170,117 +236,166 @@ const Page = () => {
         {isHydrated && isLoggedIn && (
           <div
             id="sports-main"
-            className="flex flex-1 overflow-x-hidden  flex-col"
+            className="flex overflow-x-hidden  flex-col no-scrollbar"
           >
-            <div className="p-2 px-4 flex flex-row items-center justify-between bg-[rgb(43,43,51)]">
-              <div className="flex flex-row w-1/2 py-2">
-                <button
-                  onClick={() => setIsDrawerOpen(true)}
-                  className="text-white  focus:outline-none"
-                >
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M4 6h16M4 12h16M4 18h16"
-                    />
-                  </svg>
-                </button>
-                <span className="ml-3 text-base font-bold text-white">
-                  Sports
-                </span>
-              </div>
-              <div className="flex flex-row w-1/2 relative overflow-hidden justify-end">
-                {!isSearchOpen && (
+            <div
+              id="sports-mobile-header"
+              className="sticky top-0 z-10 flex flex-col"
+            >
+              <div className="p-2 px-4 flex flex-row items-center justify-between bg-[rgb(43,43,51)]">
+                <div className="flex flex-row w-1/2 py-2">
                   <button
-                    onClick={() => setIsParlay(!isParlay)}
-                    className={`bg-[rgb(43,43,51)] mr-3 px-4 rounded-full border border-primary flex flex-row items-center gap-1 ${
-                      isParlay
-                        ? "bg-primary text-white"
-                        : "bg-[rgb(43,43,51)] text-primary"
-                    }`}
+                    onClick={() => setIsDrawerOpen(true)}
+                    className="text-white  focus:outline-none"
                   >
-                    {isParlay && <Check className="w-3 h-3 text-white" />}
-                    <span className="text-sm font-semibold ">Parlay</span>
-                  </button>
-                )}
-                {!isSearchOpen && (
-                  <button
-                    onClick={() => setIsSearchOpen(!isSearchOpen)}
-                    className=""
-                  >
-                    <Search className="w-6 h-6 text-white" />
-                  </button>
-                )}
-
-                {isSearchOpen && (
-                  <div className="flex my-1 py-1 px-2 flex-row items-center relative overflow-hidden bg-white rounded-md w-full">
-                    <input
-                      type="text"
-                      placeholder="Search..."
-                      value={searchInput}
-                      onChange={(e) => setSearchInput(e.target.value)}
-                      className="w-full bg-white text-black focus:outline-none"
-                    />
-                    <button
-                      onClick={() => setIsSearchOpen(!isSearchOpen)}
-                      className="ml-2 flex-shrink-0"
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
-                      <X className="w-6 h-6 text-primary" />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-            <hr className="border-gray-400" />
-            <div className="overflow-hidden bg-[rgb(43,43,51)]">
-              <div id="sports-slide" className="overflow-x-auto no-scrollbar">
-                <div className="flex flex-row gap-4 p-4 whitespace-nowrap min-w-min">
-                  {sports.map((sport, index) => (
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    </svg>
+                  </button>
+                  <span className="ml-3 text-base font-bold text-white">
+                    Sports
+                  </span>
+                </div>
+                <div className="flex flex-row w-1/2 relative overflow-hidden justify-end">
+                  {!isSearchOpen && (
                     <button
-                      key={index}
-                      onClick={() => setSelectedSportId(sport.id)}
-                      className={`flex flex-row items-center gap-2 px-4 py-1 rounded-full text-white hover:bg-primary hover:text-white transition-colors ${
-                        selectedSportId === sport.id
+                      onClick={() => setIsParlay(!isParlay)}
+                      className={`bg-[rgb(43,43,51)] mr-3 px-4 rounded-full border border-primary flex flex-row items-center gap-1 ${
+                        isParlay
                           ? "bg-primary text-white"
-                          : ""
+                          : "bg-[rgb(43,43,51)] text-primary"
                       }`}
                     >
-                      <span>{sport.emoji}</span>
-                      <span className="text-sm font-medium">{sport.name}</span>
+                      {isParlay && <Check className="w-3 h-3 text-white" />}
+                      <span className="text-sm font-semibold ">Parlay</span>
                     </button>
-                  ))}
+                  )}
+                  {!isSearchOpen && (
+                    <button
+                      onClick={() => setIsSearchOpen(!isSearchOpen)}
+                      className=""
+                    >
+                      <Search className="w-6 h-6 text-white" />
+                    </button>
+                  )}
+
+                  {isSearchOpen && (
+                    <div className="flex my-1 py-1 px-2 flex-row items-center relative overflow-hidden bg-white rounded-md w-full">
+                      <input
+                        type="text"
+                        placeholder="Search..."
+                        value={searchInput}
+                        onChange={(e) => setSearchInput(e.target.value)}
+                        className="w-full bg-white text-black focus:outline-none"
+                      />
+                      <button
+                        onClick={() => setIsSearchOpen(!isSearchOpen)}
+                        className="ml-2 flex-shrink-0"
+                      >
+                        <X className="w-6 h-6 text-primary" />
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
+              <hr className="border-gray-400" />
+              <div className="overflow-hidden bg-[rgb(43,43,51)]">
+                <div id="sports-slide" className="overflow-x-auto no-scrollbar">
+                  <div className="flex flex-row gap-4 p-4 py-2 whitespace-nowrap min-w-min">
+                    {sports.map((sport, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedSportId(sport.id)}
+                        className={`flex flex-row items-center gap-2 px-4 py-1 rounded-full text-white hover:bg-primary hover:text-white transition-colors ${
+                          selectedSportId === sport.id
+                            ? "bg-primary text-white"
+                            : ""
+                        }`}
+                      >
+                        <span>{sport.emoji}</span>
+                        <span className="text-sm font-medium">
+                          {sport.name}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <hr className="border-gray-400" />
             </div>
-            <hr className="border-gray-400" />
-            <MobileMatchList
-              sport={sports.find((s) => s.id === selectedSportId)}
-              placeMatchBetCallback={() => {
-                setIsBetPopupOpen(true);
-              }}
-            />
 
-            <MobileDrawer
-              isOpen={isDrawerOpen}
-              onClose={() => setIsDrawerOpen(false)}
-            />
-
-            <MobileBetPopup
-              isOpen={isBetPopupOpen}
-              betType={"match"}
-              title={"⚽ China Football Super League"}
-              onClose={() => setIsBetPopupOpen(false)}
-            />
+            <div className="relative overflow-y-auto bg-gray-200 h-full">
+              <MobileMatchList
+                is_parlay={isParlay}
+                sport={sports.find((s) => s.id === selectedSportId)}
+                placeMatchBetCallback={() => {
+                  setBetType("match");
+                  setIsBetPopupOpen(true);
+                }}
+                placeOutrightBetCallback={() => {
+                  setBetType("outright");
+                  setIsBetPopupOpen(true);
+                }}
+                moreBetCallback={(
+                  matchGroup: MatchGroup,
+                  event_title: string
+                ) => {
+                  setMorebetMatchGroup(matchGroup);
+                  setMorebetEventTitle(event_title);
+                  setIsMoreBetPopupOpen(true);
+                }}
+              />
+            </div>
           </div>
         )}
+
+        <MobileDrawer
+          isOpen={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+        />
+
+        <MobileMoreBetPopup
+          isOpen={isMoreBetPopupOpen}
+          onClose={() => setIsMoreBetPopupOpen(false)}
+          matchGroup={morebetMatchGroup}
+          event_title={morebetEventTitle}
+          onBet={() => {
+            setBetType("match");
+            setIsBetPopupOpen(true);
+          }}
+        />
+
+        <MobileBetPopup
+          isOpen={isBetPopupOpen}
+          betType={betType}
+          title={"⚽ China Football Super League"}
+          onClose={() => setIsBetPopupOpen(false)}
+          onSuccess={() => {
+            setIsBetPopupOpen(false);
+            setIsBetSuccessPopupOpen(true);
+          }}
+        />
+
+        <MobileBetSuccessPopup
+          isOpen={isBetSuccessPopupOpen}
+          betType={betType}
+          onClose={() => setIsBetSuccessPopupOpen(false)}
+          onCheckStatement={() => {
+            setIsBetSuccessPopupOpen(false);
+            router.push("/dashboard/statement");
+          }}
+        />
       </div>
     );
   }

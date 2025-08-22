@@ -21,7 +21,21 @@ const Page = () => {
   ];
 
   const renderOpenTab = () => {
-    return <div>Open Tab Content</div>;
+    return (
+      <div id="open-tab" className="flex flex-col">
+        <div className="bg-sky-50 flex flex-row justify-start items-center p-2">
+          <span className="text-base font-medium">{"1 Open Bets"}</span>
+        </div>
+        <div className="flex flex-col justify-center items-center p-4 px-2">
+          <div className="flex flex-row gap-2 bg-white shadow-md rounded-lg p-4 w-full max-w-md">
+            <span className="text-base font-medium">{"Total Stakes: "}</span>
+            <span className="text-base font-bold">{"1.00"}</span>
+          </div>
+        </div>
+        <div></div>
+        Open Tab Content
+      </div>
+    );
   };
 
   const renderSettledTab = () => {
@@ -29,7 +43,7 @@ const Page = () => {
   };
 
   return (
-    <div className="relative flex flex-1 min-h-screen bg-white">
+    <div className="relative flex h-full bg-gray-300">
       {!isHydrated && (
         <div className="flex justify-center items-center h-screen bg-white">
           <Loader />
@@ -37,7 +51,7 @@ const Page = () => {
       )}
 
       {isHydrated && isLoggedIn && (
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col flex-1">
           <div className="grid grid-cols-3 xs:grid-cols-3 bg-[rgb(43,43,43)] p-2 gap-2">
             {tabs.map((tab) => {
               if (tab.type === "url") {
@@ -71,7 +85,7 @@ const Page = () => {
               }
             })}
           </div>
-          <div className="flex flex-col flex-1 bg-gray-100">
+          <div className="flex flex-col h-full ">
             {activeTab === "open" && renderOpenTab()}
             {activeTab === "settled" && renderSettledTab()}
           </div>

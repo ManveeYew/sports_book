@@ -403,13 +403,8 @@ const Page = () => {
                                 `${league.id}-${match.id}-results`
                               )
                             }
-                            className="flex items-center justify-between p-3 cursor-pointer hover:bg-gray-100 transition-colors"
+                            className="flex items-center justify-end p-3 cursor-pointer hover:bg-gray-100 transition-colors"
                           >
-                            <div className="grid grid-cols-3 w-full text-sm font-semibold text-gray-600">
-                              <span>First Half Score</span>
-                              <span className="text-center">Final Score</span>
-                              <span className="text-right">Status</span>
-                            </div>
                             <svg
                               className={`w-4 h-4 text-gray-500 transition-transform duration-200 ml-2 ${
                                 expandedAccordions.includes(
@@ -442,6 +437,11 @@ const Page = () => {
                             } overflow-hidden`}
                           >
                             <div className="border-t border-gray-200 bg-white">
+                              <div className="grid grid-cols-3 w-full text-sm font-semibold text-gray-600 p-3">
+                                <span>First Half Score</span>
+                                <span className="text-center">Final Score</span>
+                                <span className="text-right">Status</span>
+                              </div>
                               <div className="grid grid-cols-3 p-3 text-sm">
                                 <span className="text-gray-800">-</span>
                                 <span className="text-center text-gray-800">

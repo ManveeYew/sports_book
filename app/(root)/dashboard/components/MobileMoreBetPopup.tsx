@@ -1,7 +1,5 @@
 "use client";
-import ThemeToggle from "@/app/components/ThemeToggle";
-import { UserRound, X, RotateCcw } from "lucide-react";
-import Link from "next/link";
+import { X, RotateCcw } from "lucide-react";
 import React, { useState } from "react";
 
 export type MatchTable = {

@@ -104,6 +104,7 @@ export default function MobileMatchList({
 
   const placeOutrightBet = (eventId: string, teamId: string) => {
     // Logic to place an outright bet
+    console.log(eventId, teamId);
     placeOutrightBetCallback();
   };
 

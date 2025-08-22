@@ -16,7 +16,7 @@ const DebouncedButton = forwardRef<HTMLButtonElement, DebouncedButtonProps>(
       onClick,
       debounceDelay = 300,
       isLoading = false,
-      loadingText,
+      loadingText = "",
       children,
       className = "",
       disabled,
@@ -24,6 +24,7 @@ const DebouncedButton = forwardRef<HTMLButtonElement, DebouncedButtonProps>(
     },
     ref
   ) => {
+    console.log(loadingText);
     // Debounce ref to store timeout
     const debounceRef = useRef<NodeJS.Timeout | null>(null);
 

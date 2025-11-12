@@ -81,7 +81,7 @@ const Page = () => {
               Display Settings
             </span>
           </div>
-          <div className="flex flex-col p-4 px-6 bg-white shadow-md gap-4">
+          <div className="flex flex-col p-4 px-6 bg-white shadow-md gap-4 mb-4">
             <div className="flex flex-row justify-between items-center gap-2">
               <span className="text-base font-semibold text-black">
                 Odds Type
@@ -145,6 +145,12 @@ const Page = () => {
               switchButtonClassName="!p-1 !px-3 !rounded-md"
               switchImageClassName="!w-6 !h-6"
             />
+          </div>
+
+          <div className="flex flex-row p-2 px-6 bg-gradient-to-r from-secondary to-[rgb(180,230,263)]">
+            <span className="text-base font-semibold text-white">
+              Betting Settings
+            </span>
           </div>
 
           <span>User</span>
